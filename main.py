@@ -15,7 +15,6 @@ client = discord.Client()
 
 reaction_count = []
 
-
 def get_quote():
     response = requests.get("https://zenquotes.io/api/random")
     json_data = json.loads(response.text)
@@ -38,17 +37,21 @@ def get_wit_message(wit_message):
 
 @client.event
 async def on_ready():
-    print('we have logged in  {0.user}'.format(client))
+    print('we have logged in {0.user}'.format(client))
 
 @client.event
 async def on_reaction_add(reaction, user):
-    print('reaction count: ' + str(len(reaction_count)))
+    print('reaction count: ' + str(user))
+    print('message author reaction: ' + str(reaction.message.author))
     # reaction_count = reaction.message.reactions
     if (reaction.emoji == '💩' or reaction.emoji == '👎🏿') and (reaction.message.author != client.user and len(reaction_count) < 1):
         reaction_count.append(reaction.emoji)
         insult = get_insult()
         print('reaction count 2: ' + str(len(reaction_count)))
-        await reaction.message.channel.send(reaction.message.author.mention + ' ' + insult)
+        if str(reaction.message.author) == 'TheBatMoose#5993':
+            await reaction.message.channel.send(user.mention + ' ' + insult)
+        else:
+            await reaction.message.channel.send(reaction.message.author.mention + ' ' + insult)
 
 @client.event
 async def on_message(message):
