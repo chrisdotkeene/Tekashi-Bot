@@ -34,6 +34,9 @@ def get_wit_message(wit_message):
     resp = wit_client.message(wit_message)
     return (resp)
 
+#TODO add later
+def on_poop_reaction(reaction):
+    return
 
 @client.event
 async def on_ready():
